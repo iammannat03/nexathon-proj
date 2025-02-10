@@ -21,7 +21,7 @@ import {
   IndianRupee,
   Briefcase,
 } from "lucide-react";
-
+import Link from "next/link";
 // Mock job data
 const jobs = [
   {
@@ -178,9 +178,9 @@ const JobListingPage = () => {
       </div>
 
       {/* Job Listings */}
-      <div className="flex-1 space-y-6">
+      <div className="flex-1 flex flex-col space-y-6">
         {/* Promoted Course Card */}
-        <Card className="p-6 border-2 border-primary">
+        <Card className="p-6 border-2 border-primary hover:shadow-lg transition-all duration-300">
           <div className="flex justify-between items-start">
             <div>
               <Badge className="mb-2">Promoted</Badge>
@@ -197,38 +197,44 @@ const JobListingPage = () => {
 
         {/* Job Cards */}
         {jobs.map((job) => (
-          <Card key={job.id} className="p-6">
-            <div className="flex justify-between items-start">
-              <div className="space-y-2">
-                <h3 className="text-xl font-semibold">
-                  {job.title}
-                </h3>
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <Building2 className="h-4 w-4" />
-                  <span>{job.company}</span>
+          <Link
+            key={job.id}
+            href={`/seeker/apply-for-jobs/${job.id}`}
+            className="hover:shadow-lg transition-all duration-300"
+          >
+            <Card className="p-6">
+              <div className="flex justify-between items-start">
+                <div className="space-y-2">
+                  <h3 className="text-xl font-semibold">
+                    {job.title}
+                  </h3>
+                  <div className="flex items-center gap-2 text-muted-foreground">
+                    <Building2 className="h-4 w-4" />
+                    <span>{job.company}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-1">
+                      <MapPin className="h-4 w-4" />
+                      <span>{job.location}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Briefcase className="h-4 w-4" />
+                      <span>{job.experience}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <IndianRupee className="h-4 w-4" />
+                      <span>{job.salary}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Calendar className="h-4 w-4" />
+                      <span>{job.postedDate}</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <MapPin className="h-4 w-4" />
-                    <span>{job.location}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Briefcase className="h-4 w-4" />
-                    <span>{job.experience}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <IndianRupee className="h-4 w-4" />
-                    <span>{job.salary}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Calendar className="h-4 w-4" />
-                    <span>{job.postedDate}</span>
-                  </div>
-                </div>
+                <Button>Apply Now</Button>
               </div>
-              <Button>Apply Now</Button>
-            </div>
-          </Card>
+            </Card>
+          </Link>
         ))}
       </div>
     </div>

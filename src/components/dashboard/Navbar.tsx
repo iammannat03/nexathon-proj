@@ -74,7 +74,7 @@ import {
 import Search from "./Search";
 import { UserIcon } from "lucide-react";
 import { Button } from "../ui/button";
-
+import { useRouter } from "next/navigation";
 const components: {
   title: string;
   href: string;
@@ -133,6 +133,7 @@ const components: {
 ];
 
 export function Navbar() {
+  const router = useRouter();
   return (
     <nav className="flex items-center p-4 px-12 gap-x-10">
       <div className="flex items-center gap-4 w-[600px] ">
@@ -211,7 +212,12 @@ export function Navbar() {
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
-        <Button className="bg-white hover:bg-gray-100 ring-1 ring-gray-200 text-black rounded-lg ">
+        <Button
+          className="bg-white hover:bg-gray-100 ring-1 ring-gray-200 text-black rounded-lg"
+          onClick={() => {
+            router.push("/seeker/profile");
+          }}
+        >
           <UserIcon />
         </Button>
       </div>
