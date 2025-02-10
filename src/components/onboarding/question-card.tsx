@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 interface Option {
   id: string;
@@ -12,14 +14,44 @@ interface Option {
 interface QuestionCardProps {
   question: string;
   options: Option[];
-  onSelect: (answer: string) => void;
+  type?: "multi-select" | "checkbox";
+  onSelect: (answer: string | string[]) => void;
 }
 
 export function QuestionCard({
   question,
   options,
+  type,
   onSelect,
 }: QuestionCardProps) {
+  const [selectedOptions, setSelectedOptions] = useState<
+    string[]
+  >([]);
+  const isMultiSelect =
+    type === "multi-select" || type === "checkbox";
+
+  console.log(type);
+
+  const handleOptionClick = (optionId: string) => {
+    if (isMultiSelect) {
+      const updatedSelection = selectedOptions.includes(
+        optionId,
+      )
+        ? selectedOptions.filter((id) => id !== optionId)
+        : [...selectedOptions, optionId];
+      setSelectedOptions(updatedSelection);
+    } else {
+      onSelect(optionId);
+    }
+  };
+
+  const handleContinue = () => {
+    if (selectedOptions.length > 0) {
+      onSelect(selectedOptions);
+      setSelectedOptions([]);
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, x: 20 }}
@@ -33,8 +65,12 @@ export function QuestionCard({
         {options.map((option) => (
           <Card
             key={option.id}
-            className="p-4 cursor-pointer hover:bg-muted"
-            onClick={() => onSelect(option.id)}
+            className={`p-4 cursor-pointer hover:bg-muted ${
+              selectedOptions.includes(option.id)
+                ? "bg-muted"
+                : ""
+            }`}
+            onClick={() => handleOptionClick(option.id)}
           >
             <h3 className="font-medium">{option.label}</h3>
             {option.description && (
@@ -44,6 +80,11 @@ export function QuestionCard({
             )}
           </Card>
         ))}
+        {isMultiSelect && selectedOptions.length > 0 && (
+          <Button className="mt-4" onClick={handleContinue}>
+            Continue
+          </Button>
+        )}
       </div>
     </motion.div>
   );
