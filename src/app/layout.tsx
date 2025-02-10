@@ -19,7 +19,10 @@ export default function RootLayout({
       className={`${GeistSans.variable}`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen bg-background font-sans antialiased">
+      <body
+        className="min-h-screen bg-background font-sans antialiased"
+        suppressHydrationWarning
+      >
         {children}
         <Toaster />
       </body>

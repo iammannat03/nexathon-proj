@@ -14,7 +14,12 @@ const GetStarted = (props: Props) => {
           Get Started
         </h1>
         <div className="space-y-4">
-          <button className="w-full p-4 text-left bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+          <button
+            className="w-full p-4 text-left bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            onClick={() =>
+              router.push("/seeker/apply-for-jobs")
+            }
+          >
             <div className="font-semibold">
               Apply for Jobs
             </div>
@@ -22,7 +27,10 @@ const GetStarted = (props: Props) => {
               Find and apply to job opportunities
             </p>
           </button>
-          <button className="w-full p-4 text-left bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+          <button
+            className="w-full p-4 text-left bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            onClick={() => router.push("/seeker/courses")}
+          >
             <div className="font-semibold">Upskill</div>
             <p className="text-sm text-gray-500">
               Enhance your skills and knowledge
