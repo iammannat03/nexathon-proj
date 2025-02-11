@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-export function JobReadinessDialog() {
+export function JobReadinessDialog({ jobId }: { jobId: string }) {
   const router = useRouter();
 
   return (
@@ -30,7 +30,7 @@ export function JobReadinessDialog() {
           <Button variant="outline" onClick={() => router.back()}>
             Cancel
           </Button>
-          <Button onClick={() => router.push("/seeker/quiz")}>
+          <Button onClick={() => router.push(`/seeker/quiz?jobId=${jobId}`)}>
             Continue to Quiz
           </Button>
         </DialogFooter>
