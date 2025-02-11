@@ -101,7 +101,7 @@ export const roadmap = {
       ],
     },
   },
-  cybersecurity: {
+  "cybersecurity": {
     "Advanced Threat Detection": {
       subtopics: [
         "Threat Hunting Techniques",
