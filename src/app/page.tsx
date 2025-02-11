@@ -4,8 +4,12 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
+import {
+  account,
+  appwriteService,
+  AppwriteService,
+} from "@/appwrite/service";
 
-import { account, appwriteService, AppwriteService } from "@/appwrite/service";
 
 import { Client, Models } from "appwrite";
 import { useRouter } from "next/navigation";
@@ -63,7 +67,9 @@ const Page = () => {
           <div className="flex h-16 justify-between">
             <div className="flex items-center">
               <Link href="/" className="flex items-center">
-                <span className="text-xl font-bold">Higher.AI</span>
+                <span className="text-xl font-bold">
+                  Higher.AI
+                </span>
               </Link>
             </div>
 
@@ -80,11 +86,17 @@ const Page = () => {
               >
                 Hiring Agencies
               </Link>
-              <Link href="/tutor" className="text-gray-600 hover:text-gray-900">
+              <Link
+                href="/tutor"
+                className="text-gray-600 hover:text-gray-900"
+              >
                 Tutors
               </Link>
               {user ? (
-                <Button variant="outline" onClick={handleLogout}>
+                <Button
+                  variant="outline"
+                  onClick={handleLogout}
+                >
                   Logout
                 </Button>
               ) : (
@@ -121,15 +133,18 @@ const Page = () => {
           Find Your Dream Job Today
         </motion.h1>
         <p className="mb-8 text-xl text-gray-600">
-          Connect with top employers and discover opportunities that match your
-          skills
+          Connect with top employers and discover
+          opportunities that match your skills
         </p>
         <div className="flex justify-center gap-4">
           <Button size="lg" asChild>
             <Link href="/seeker">Get Started</Link>
           </Button>
           {user ? (
-            <Button variant="outline" onClick={handleLogout}>
+            <Button
+              variant="outline"
+              onClick={handleLogout}
+            >
               Logout
             </Button>
           ) : (
@@ -195,16 +210,24 @@ const Page = () => {
 
       {/* Pricing Section */}
       <section className="bg-white px-4 py-16">
-        <h2 className="mb-12 text-center text-4xl font-bold">Our Pricing</h2>
+        <h2 className="mb-12 text-center text-4xl font-bold">
+          Our Pricing
+        </h2>
         <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
           <PricingCard
             title="Basic"
             price="Free"
             features={[
+
               "Resume builder",
               "AI powered personalised roadmap",
               "Access to free resources",
               "ATS optimizer",
+
+              "Job Search",
+              "Profile Creation",
+              "Basic Applications",
+
             ]}
           />
           <PricingCard
@@ -220,12 +243,14 @@ const Page = () => {
             highlighted={true}
           />
           <PricingCard
+
             title="Hiring Agency"
             price="Custom (Reach out to us!)"
             features={[
               "Bulk resume screening",
               "AI mock interviews for shortlisting candidates",
               "Exclusive access to talent and more...",
+
             ]}
           />
         </div>
@@ -234,7 +259,9 @@ const Page = () => {
       {/* Contact Section */}
       <section className="bg-gray-50 px-4 py-16">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="mb-8 text-4xl font-bold">Get In Touch</h2>
+          <h2 className="mb-8 text-4xl font-bold">
+            Get In Touch
+          </h2>
           <p className="mb-8 text-gray-600">
             Have questions? We&apos;re here to help!
           </p>
@@ -324,7 +351,6 @@ interface FeatureCardProps {
   description: string;
   icon: string;
 }
-
 interface PricingCardProps {
   title: string;
   price: string;

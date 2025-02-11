@@ -15,7 +15,8 @@ interface Question {
 const questions: Question[] = [
   {
     id: 1,
-    question: "What is the primary responsibility of a sales specialist?",
+    question:
+      "What is the primary responsibility of a sales specialist?",
     options: [
       "Managing office supplies",
       "Developing client relationships",
@@ -27,7 +28,8 @@ const questions: Question[] = [
   // Add more questions
   {
     id: 2,
-    question: "What is the main goal of a marketing campaign?",
+    question:
+      "What is the main goal of a marketing campaign?",
     options: [
       "To increase sales",
       "To improve employee satisfaction",
@@ -38,7 +40,8 @@ const questions: Question[] = [
   },
   {
     id: 3,
-    question: "Which of the following is a key performance indicator (KPI)?",
+    question:
+      "Which of the following is a key performance indicator (KPI)?",
     options: [
       "Customer satisfaction score",
       "Employee turnover rate",
@@ -74,14 +77,18 @@ const questions: Question[] = [
 
 export default function ReadinessQuiz() {
   const router = useRouter();
-  const [currentQuestion, setCurrentQuestion] = useState<number>(0);
+  const [currentQuestion, setCurrentQuestion] =
+    useState<number>(0);
   const [answers, setAnswers] = useState<string[]>([]);
-  const [showResults, setShowResults] = useState<boolean>(false);
+  const [showResults, setShowResults] =
+    useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
   const [jobId, setJobId] = useState<string | null>(null); // State to hold jobId
 
   useEffect(() => {
-    const query = new URLSearchParams(window.location.search);
+    const query = new URLSearchParams(
+      window.location.search,
+    );
     const jobIdFromQuery = query.get("jobId"); // Get jobId from query parameters
     setJobId(jobIdFromQuery); // Set jobId state
   }, []);
@@ -91,9 +98,14 @@ export default function ReadinessQuiz() {
     setAnswers(newAnswers);
 
     if (currentQuestion === questions.length - 1) {
-      const finalScore = newAnswers.reduce((acc, curr, index) => {
-        return curr === questions[index]!.correctAnswer ? acc + 1 : acc;
-      }, 0);
+      const finalScore = newAnswers.reduce(
+        (acc, curr, index) => {
+          return curr === questions[index]!.correctAnswer
+            ? acc + 1
+            : acc;
+        },
+        0,
+      );
       setScore(finalScore);
       setShowResults(true);
     } else {
@@ -105,11 +117,18 @@ export default function ReadinessQuiz() {
     return (
       <div className="mx-auto max-w-2xl p-6">
         <Card className="p-6 text-center">
-          <h2 className="mb-4 text-2xl font-bold">Quiz Results</h2>
+          <h2 className="mb-4 text-2xl font-bold">
+            Quiz Results
+          </h2>
           <p className="mb-4 text-xl">
-            You scored {score} out of {questions.length} correct!
+            You scored {score} out of {questions.length}{" "}
+            correct!
           </p>
-          <Button onClick={() => router.push(`/seeker/roadmap?jobId=${jobId}`)}>
+          <Button
+            onClick={() =>
+              router.push(`/seeker/roadmap?jobId=${jobId}`)
+            }
+          >
             Your Roadmap is Ready
           </Button>
         </Card>
@@ -121,22 +140,25 @@ export default function ReadinessQuiz() {
     <div className="mx-auto max-w-2xl p-6">
       <Card className="p-6">
         <div className="mb-4">
-          Question {currentQuestion + 1} of {questions.length}
+          Question {currentQuestion + 1} of{" "}
+          {questions.length}
         </div>
         <h2 className="mb-4 text-xl font-semibold">
           {questions[currentQuestion]!.question}
         </h2>
         <div className="space-y-3">
-          {questions[currentQuestion]!.options.map((option) => (
-            <Button
-              key={option}
-              variant="outline"
-              className="w-full justify-start text-left"
-              onClick={() => handleAnswer(option)}
-            >
-              {option}
-            </Button>
-          ))}
+          {questions[currentQuestion]!.options.map(
+            (option) => (
+              <Button
+                key={option}
+                variant="outline"
+                className="w-full justify-start text-left"
+                onClick={() => handleAnswer(option)}
+              >
+                {option}
+              </Button>
+            ),
+          )}
         </div>
       </Card>
     </div>

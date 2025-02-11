@@ -5,7 +5,6 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { appwriteService } from "@/appwrite/service"; // Import your Appwrite service
-import { toHyphenatedString } from "@/utils/stringUtils";
 
 interface Job {
   id: string;
@@ -32,7 +31,8 @@ const JobListingPage = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const fetchedJob = await appwriteService.getAllJobs();
+        const fetchedJob =
+          await appwriteService.getAllJobs();
         setJobs(fetchedJob);
       } catch (error) {
         console.error("Error fetching jobs:", error);
@@ -60,7 +60,9 @@ const JobListingPage = () => {
           <Card className="p-6">
             <div className="flex items-start justify-between">
               <div className="space-y-2">
-                <h3 className="text-xl font-semibold">{job.title}</h3>
+                <h3 className="text-xl font-semibold">
+                  {job.title}
+                </h3>
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <span>{job.company}</span>
                 </div>

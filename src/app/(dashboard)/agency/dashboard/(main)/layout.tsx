@@ -4,11 +4,6 @@ import Navbar from "@/components/navigation/Navbar/Navbar";
 import { JobProvider } from "@/hooks/useJobsData";
 import React from "react";
 
-export const metadata: Metadata = {
-  title: "Talent Boost",
-  description: "AI Interviews at ease",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
