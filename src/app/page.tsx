@@ -5,32 +5,26 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 
-import {
-  account,
-  appwriteService,
-  AppwriteService,
-} from "@/appwrite/service";
+import { account, appwriteService, AppwriteService } from "@/appwrite/service";
 
 import { Client, Models } from "appwrite";
 import { useRouter } from "next/navigation";
 import Marquee from "react-fast-marquee";
 import Image from "next/image";
 
-
 type Props = {};
-
 
 const Page = () => {
   const router = useRouter();
-  const [user, setUser] =
-    useState<Models.User<Models.Preferences> | null>(null);
+  const [user, setUser] = useState<Models.User<Models.Preferences> | null>(
+    null,
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const userData =
-          await appwriteService.getCurrentUser();
+        const userData = await appwriteService.getCurrentUser();
         setUser(userData);
       } catch (error) {
         console.error("Error fetching user:", error);
@@ -206,22 +200,33 @@ const Page = () => {
           <PricingCard
             title="Basic"
             price="Free"
-            features={["Job Search", "Profile Creation", "Basic Applications"]}
+            features={[
+              "Resume builder",
+              "AI powered personalised roadmap",
+              "Access to free resources",
+              "ATS optimizer",
+            ]}
           />
           <PricingCard
             title="Pro"
-            price="$9/month"
+            price="$19.99/month"
             features={[
-              "Everything in Basic",
-              "Priority Applications",
-              "Advanced Analytics",
+              "Everything in Free, plus",
+              "AI Mock Interviews",
+              "Priority Job recommendations",
+              "Access to limited courses",
+              "Exclusive mentorship sessions",
             ]}
             highlighted={true}
           />
           <PricingCard
             title="Enterprise"
-            price="Custom"
-            features={["Custom Solutions", "API Access", "Dedicated Support"]}
+            price="Custom (Reach out to us!)"
+            features={[
+              "Bulk resume screening",
+              "AI mock interviews for shortlisting candidates",
+              "Exclusive access to talent and more...",
+            ]}
           />
         </div>
       </section>
@@ -314,7 +319,6 @@ const AnimatedFeatureCard = ({
   </motion.div>
 );
 
-
 interface FeatureCardProps {
   title: string;
   description: string;
@@ -333,7 +337,6 @@ const PricingCard = ({
   price,
   features,
   highlighted = false,
-
 }: PricingCardProps) => {
   const router = useRouter();
 
@@ -362,6 +365,5 @@ const PricingCard = ({
     </motion.div>
   );
 };
-
 
 export default Page;
