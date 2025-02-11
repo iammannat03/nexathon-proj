@@ -10,6 +10,7 @@ import {
   AppwriteService,
 } from "@/appwrite/service";
 
+
 import { Client, Models } from "appwrite";
 import { useRouter } from "next/navigation";
 import Marquee from "react-fast-marquee";
@@ -19,15 +20,15 @@ type Props = {};
 
 const Page = () => {
   const router = useRouter();
-  const [user, setUser] =
-    useState<Models.User<Models.Preferences> | null>(null);
+  const [user, setUser] = useState<Models.User<Models.Preferences> | null>(
+    null,
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const userData =
-          await appwriteService.getCurrentUser();
+        const userData = await appwriteService.getCurrentUser();
         setUser(userData);
       } catch (error) {
         console.error("Error fetching user:", error);
@@ -217,28 +218,39 @@ const Page = () => {
             title="Basic"
             price="Free"
             features={[
+
+              "Resume builder",
+              "AI powered personalised roadmap",
+              "Access to free resources",
+              "ATS optimizer",
+
               "Job Search",
               "Profile Creation",
               "Basic Applications",
+
             ]}
           />
           <PricingCard
             title="Pro"
-            price="$9/month"
+            price="$19.99/month"
             features={[
-              "Everything in Basic",
-              "Priority Applications",
-              "Advanced Analytics",
+              "Everything in Free, plus",
+              "AI Mock Interviews",
+              "Priority Job recommendations",
+              "Access to limited courses",
+              "Exclusive mentorship sessions",
             ]}
             highlighted={true}
           />
           <PricingCard
-            title="Enterprise"
-            price="Custom"
+
+            title="Hiring Agency"
+            price="Custom (Reach out to us!)"
             features={[
-              "Custom Solutions",
-              "API Access",
-              "Dedicated Support",
+              "Bulk resume screening",
+              "AI mock interviews for shortlisting candidates",
+              "Exclusive access to talent and more...",
+
             ]}
           />
         </div>
