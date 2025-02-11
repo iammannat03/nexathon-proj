@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import {
+
   Dialog,
   DialogContent,
   DialogDescription,
@@ -85,7 +86,6 @@ const Page = () => {
               Choose another domain
             </Button>
           </div>
-
           {/* Recommended Courses Section */}
           <div className="space-y-4">
             <h3 className="text-xl font-semibold">

@@ -22,7 +22,11 @@ interface Job {
   companyLogo: string;
 }
 
-const JobDetailsPage = ({ params }: { params: Promise<{ id: string }> }) => {
+const JobDetailsPage = ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
   const [job, setJob] = useState<Job | null>(null);
   const [loading, setLoading] = useState(true);
   const [id, setId] = useState<string | null>(null);
@@ -32,8 +36,31 @@ const JobDetailsPage = ({ params }: { params: Promise<{ id: string }> }) => {
       try {
         const resolvedParams = await params; // Unwrap the Promise
         setId(resolvedParams.id); // Set the id state
-        const fetchedJob = await appwriteService.getDoc(resolvedParams.id);
-        setJob(fetchedJob as Job | null);
+        const fetchedJob = await appwriteService.getDoc(
+          resolvedParams.id,
+        );
+        setJob(
+          fetchedJob
+            ? ({
+                id: fetchedJob.$id,
+                title: fetchedJob.title,
+                company: fetchedJob.company,
+                location: fetchedJob.location,
+                isActive: fetchedJob.isActive,
+                startDate: fetchedJob.startDate,
+                salary: fetchedJob.salary,
+                experience: fetchedJob.experience,
+                applyBy: fetchedJob.applyBy,
+                description: fetchedJob.description,
+                responsibilities:
+                  fetchedJob.responsibilities,
+                skills: fetchedJob.skills,
+                companyDescription:
+                  fetchedJob.companyDescription,
+                companyLogo: fetchedJob.companyLogo,
+              } as Job)
+            : null,
+        );
       } catch (error) {
         console.error("Error fetching job:", error);
       } finally {
@@ -77,7 +104,9 @@ const JobDetailsPage = ({ params }: { params: Promise<{ id: string }> }) => {
         <div className="mb-6 flex items-start justify-between">
           <div>
             <div className="mb-2 flex items-center gap-2">
-              <h1 className="text-2xl font-bold">{job.title}</h1>
+              <h1 className="text-2xl font-bold">
+                {job.title}
+              </h1>
               {job.isActive && (
                 <span className="rounded bg-green-100 px-2 py-1 text-xs text-green-800">
                   Actively hiring
@@ -98,19 +127,27 @@ const JobDetailsPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
         <div className="mb-6 grid grid-cols-4 gap-4">
           <div className="rounded bg-gray-50 p-4">
-            <p className="text-sm text-gray-500">START DATE</p>
+            <p className="text-sm text-gray-500">
+              START DATE
+            </p>
             <p className="font-medium">{job.startDate}</p>
           </div>
           <div className="rounded bg-gray-50 p-4">
-            <p className="text-sm text-gray-500">CTC (ANNUAL)</p>
+            <p className="text-sm text-gray-500">
+              CTC (ANNUAL)
+            </p>
             <p className="font-medium">{job.salary}</p>
           </div>
           <div className="rounded bg-gray-50 p-4">
-            <p className="text-sm text-gray-500">EXPERIENCE</p>
+            <p className="text-sm text-gray-500">
+              EXPERIENCE
+            </p>
             <p className="font-medium">{job.experience}</p>
           </div>
           <div className="rounded bg-gray-50 p-4">
-            <p className="text-sm text-gray-500">APPLY BY</p>
+            <p className="text-sm text-gray-500">
+              APPLY BY
+            </p>
             <p className="font-medium">{job.applyBy}</p>
           </div>
         </div>
@@ -122,8 +159,12 @@ const JobDetailsPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
         <div className="space-y-6">
           <section>
-            <h2 className="mb-3 text-xl font-semibold">About the job</h2>
-            <p className="text-gray-700">{job.description}</p>
+            <h2 className="mb-3 text-xl font-semibold">
+              About the job
+            </h2>
+            <p className="text-gray-700">
+              {job.description}
+            </p>
           </section>
 
           <section>
@@ -131,14 +172,18 @@ const JobDetailsPage = ({ params }: { params: Promise<{ id: string }> }) => {
               Key Responsibilities:
             </h2>
             <ul className="list-disc space-y-2 pl-5 text-gray-700">
-              {job.responsibilities.map((responsibility, index) => (
-                <li key={index}>{responsibility}</li>
-              ))}
+              {job.responsibilities.map(
+                (responsibility, index) => (
+                  <li key={index}>{responsibility}</li>
+                ),
+              )}
             </ul>
           </section>
 
           <section>
-            <h2 className="mb-3 text-xl font-semibold">Skills Required</h2>
+            <h2 className="mb-3 text-xl font-semibold">
+              Skills Required
+            </h2>
             <div className="flex flex-wrap gap-2">
               {job.skills.map((skill) => (
                 <span
@@ -152,8 +197,12 @@ const JobDetailsPage = ({ params }: { params: Promise<{ id: string }> }) => {
           </section>
 
           <section>
-            <h2 className="mb-3 text-xl font-semibold">About {job.company}</h2>
-            <p className="text-gray-700">{job.companyDescription}</p>
+            <h2 className="mb-3 text-xl font-semibold">
+              About {job.company}
+            </h2>
+            <p className="text-gray-700">
+              {job.companyDescription}
+            </p>
           </section>
         </div>
       </div>

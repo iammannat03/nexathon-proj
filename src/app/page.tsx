@@ -2,29 +2,35 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 
-import { account, appwriteService, AppwriteService } from "@/appwrite/service";
+import {
+  account,
+  appwriteService,
+  AppwriteService,
+} from "@/appwrite/service";
 
 import { Client, Models } from "appwrite";
 import { useRouter } from "next/navigation";
 import Marquee from "react-fast-marquee";
 import Image from "next/image";
 
+
+type Props = {};
+
+
 const Page = () => {
   const router = useRouter();
-  const [user, setUser] = useState<Models.User<Models.Preferences> | null>(
-    null,
-  );
-
+  const [user, setUser] =
+    useState<Models.User<Models.Preferences> | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const userData = await appwriteService.getCurrentUser();
+        const userData =
+          await appwriteService.getCurrentUser();
         setUser(userData);
       } catch (error) {
         console.error("Error fetching user:", error);
@@ -32,6 +38,7 @@ const Page = () => {
     };
     void fetchUser();
   }, []);
+
   const handleLogout = async () => {
     await account
       .deleteSession("current")
@@ -44,6 +51,7 @@ const Page = () => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   };
+
   const staggerChildren = {
     hidden: {},
     visible: {
@@ -52,6 +60,7 @@ const Page = () => {
       },
     },
   };
+
   return (
     <main className="flex min-h-screen flex-col">
       {/* Navbar */}
@@ -155,7 +164,6 @@ const Page = () => {
           viewport={{ once: true }}
           className="mx-auto grid max-w-6xl gap-8 md:grid-cols-3"
         >
-          {/* Replace FeatureCard calls with AnimatedFeatureCard */}
           <AnimatedFeatureCard
             title="AI-powered roadmap generation"
             description="AI-powered roadmap generation based on your skills and goals"
@@ -180,7 +188,6 @@ const Page = () => {
           Trusted By Leading Companies
         </h2>
         <Marquee gradient={true} speed={50}>
-          {/* Replace with actual company logos */}
           <div className="flex items-center gap-12 px-8">
             <span className="text-2xl">Microsoft</span>
             <span className="text-2xl">Adobe</span>
@@ -188,7 +195,6 @@ const Page = () => {
             <span className="text-2xl">Microsoft</span>
             <span className="text-2xl">Adobe</span>
             <span className="text-2xl">Accenture</span>
-            {/* Add more companies */}
           </div>
         </Marquee>
       </section>
@@ -280,6 +286,14 @@ const Page = () => {
     </main>
   );
 };
+
+// Helper Components
+interface FeatureCardProps {
+  title: string;
+  description: string;
+  icon: string;
+}
+
 const AnimatedFeatureCard = ({
   title,
   description,
@@ -300,7 +314,7 @@ const AnimatedFeatureCard = ({
   </motion.div>
 );
 
-// Helper Components
+
 interface FeatureCardProps {
   title: string;
   description: string;
@@ -319,6 +333,7 @@ const PricingCard = ({
   price,
   features,
   highlighted = false,
+
 }: PricingCardProps) => {
   const router = useRouter();
 
@@ -347,5 +362,6 @@ const PricingCard = ({
     </motion.div>
   );
 };
+
 
 export default Page;

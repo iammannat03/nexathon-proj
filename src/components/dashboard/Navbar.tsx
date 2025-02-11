@@ -215,32 +215,34 @@ export function Navbar() {
                 Create Roadmap
               </NavigationMenuTrigger>
               <NavigationMenuContent>
-              
-                      <a
-                        className="flex h-full w-96 ml-20 select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                        href="/seeker/beginner-roadmap"
-                      >
-                        <div className="mb-2 mt-4 text-lg font-medium">
-                          Course Personalized Roadmap
-                        </div>
-                        <p className="text-sm leading-tight text-muted-foreground">
-                          Create Personalized and detailed roadmaps
-                          to get a direction and personalised roadmaps
-                        </p>
-                      </a>
-                    
+                <a
+                  className="flex h-full w-96 ml-20 select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                  href="/seeker/beginner-roadmap"
+                >
+                  <div className="mb-2 mt-4 text-lg font-medium">
+                    Course Personalized Roadmap
+                  </div>
+                  <p className="text-sm leading-tight text-muted-foreground">
+                    Create Personalized and detailed
+                    roadmaps to get a direction and
+                    personalised roadmaps
+                  </p>
+                </a>
               </NavigationMenuContent>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
-        <Button
-          className="bg-white hover:bg-gray-100 ring-1 ring-gray-200 text-black rounded-lg"
-          onClick={() => {
-            router.push("/seeker/profile");
-          }}
-        >
-          <UserIcon />
-        </Button>
+        <div className="flex gap-x-5">
+          <Button variant={"default"}>My Learning</Button>
+          <Button
+            className="bg-white hover:bg-gray-100 ring-1 ring-gray-200 text-black rounded-lg"
+            onClick={() => {
+              router.push("/seeker/profile");
+            }}
+          >
+            <UserIcon />
+          </Button>
+        </div>
       </div>
     </nav>
   );
