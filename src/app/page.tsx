@@ -2,6 +2,9 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
+
 import {
   account,
   appwriteService,
@@ -38,6 +41,19 @@ const Page = (props: Props) => {
       .then(() => router.push("/sign-up"))
       .catch((error) => console.error(error));
     setUser(null);
+  };
+
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+  const staggerChildren = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
   };
   return (
     <main className="flex flex-col min-h-screen">
@@ -91,16 +107,27 @@ const Page = (props: Props) => {
 
       {/* Hero Section */}
       <section className="py-[200px] px-4 pt-[400px] text-center bg-gradient-to-b from-white to-gray-100 flex flex-col items-center justify-center">
-        <Image
-          src="/logo.svg"
-          alt="Hero Image"
-          width={400}
-          height={400}
-          className="absolute top-40"
-        />
-        <h1 className="text-6xl font-bold mb-6">
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Image
+            src="/logo.svg"
+            alt="Hero Image"
+            width={400}
+            height={400}
+            className="absolute left-1/2 -translate-x-1/2 top-40"
+          />
+        </motion.div>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="text-6xl font-bold mb-6"
+        >
           Find Your Dream Job Today
-        </h1>
+        </motion.h1>
         <p className="text-xl text-gray-600 mb-8">
           Connect with top employers and discover
           opportunities that match your skills
@@ -126,26 +153,39 @@ const Page = (props: Props) => {
 
       {/* Features Section */}
       <section className="py-16 px-4 bg-white">
-        <h2 className="text-4xl font-bold text-center mb-12">
+        <motion.h2
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeIn}
+          className="text-4xl font-bold text-center mb-12"
+        >
           Key Features
-        </h2>
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          <FeatureCard
-            title="Smart Job Matching"
-            description="AI-powered job recommendations based on your skills and preferences"
+        </motion.h2>
+        <motion.div
+          variants={staggerChildren}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto"
+        >
+          {/* Replace FeatureCard calls with AnimatedFeatureCard */}
+          <AnimatedFeatureCard
+            title="AI-powered roadmap generation"
+            description="AI-powered roadmap generation based on your skills and goals"
             icon="🎯"
           />
-          <FeatureCard
-            title="Easy Applications"
-            description="Apply to multiple jobs with a single click using your profile"
-            icon="📝"
+          <AnimatedFeatureCard
+            title="AI-powered job recommendations"
+            description="Get personalized job recommendations based on your skills and goals"
+            icon="💼"
           />
-          <FeatureCard
-            title="Career Growth"
-            description="Access resources and tools to advance your career"
-            icon="📈"
+          <AnimatedFeatureCard
+            title="AI-powered mock interviews"
+            description="Practice for your interview with AI-powered mock interviews"
+            icon="🎤"
           />
-        </div>
+        </motion.div>
       </section>
 
       {/* Clients Marquee */}
@@ -156,9 +196,12 @@ const Page = (props: Props) => {
         <Marquee gradient={true} speed={50}>
           {/* Replace with actual company logos */}
           <div className="flex items-center gap-12 px-8">
-            <span className="text-2xl">Company 1</span>
-            <span className="text-2xl">Company 2</span>
-            <span className="text-2xl">Company 3</span>
+            <span className="text-2xl">Microsoft</span>
+            <span className="text-2xl">Adobe</span>
+            <span className="text-2xl">Accenture</span>
+            <span className="text-2xl">Microsoft</span>
+            <span className="text-2xl">Adobe</span>
+            <span className="text-2xl">Accenture</span>
             {/* Add more companies */}
           </div>
         </Marquee>
@@ -167,7 +210,7 @@ const Page = (props: Props) => {
       {/* Pricing Section */}
       <section className="py-16 px-4 bg-white">
         <h2 className="text-4xl font-bold text-center mb-12">
-          Simple Pricing
+          Our Pricing
         </h2>
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           <PricingCard
@@ -263,6 +306,25 @@ const Page = (props: Props) => {
     </main>
   );
 };
+const AnimatedFeatureCard = ({
+  title,
+  description,
+  icon,
+}: FeatureCardProps) => (
+  <motion.div
+    variants={{
+      hidden: { opacity: 0, y: 20 },
+      visible: { opacity: 1, y: 0 },
+    }}
+    className="p-6 border rounded-lg text-center"
+    whileHover={{ scale: 1.05 }}
+    transition={{ duration: 0.2 }}
+  >
+    <div className="text-4xl mb-4">{icon}</div>
+    <h3 className="text-xl font-bold mb-2">{title}</h3>
+    <p className="text-gray-600">{description}</p>
+  </motion.div>
+);
 
 // Helper Components
 interface FeatureCardProps {
@@ -299,7 +361,9 @@ const PricingCard = ({
   const router = useRouter();
 
   return (
-    <div
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      transition={{ duration: 0.2 }}
       className={`p-6 border rounded-lg ${highlighted ? "border-2 border-primary shadow-lg" : ""}`}
     >
       <h3 className="text-xl font-bold mb-2">{title}</h3>
@@ -318,7 +382,7 @@ const PricingCard = ({
       >
         Get Started
       </Button>
-    </div>
+    </motion.div>
   );
 };
 
