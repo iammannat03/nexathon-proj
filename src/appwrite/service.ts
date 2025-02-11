@@ -23,7 +23,7 @@ export class AppwriteService {
     try {
       await account.createOAuth2Session(
         OAuthProvider.Google,
-        "http://localhost:3000/home",
+        "http://localhost:3000/seeker",
         "http://localhost:3000/fail",
       );
     } catch (error) {
