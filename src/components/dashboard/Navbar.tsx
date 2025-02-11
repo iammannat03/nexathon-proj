@@ -210,6 +210,27 @@ export function Navbar() {
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>
+                Create Roadmap
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+              
+                      <a
+                        className="flex h-full w-96 ml-20 select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                        href="/seeker/beginner-roadmap"
+                      >
+                        <div className="mb-2 mt-4 text-lg font-medium">
+                          Course Personalized Roadmap
+                        </div>
+                        <p className="text-sm leading-tight text-muted-foreground">
+                          Create Personalized and detailed roadmaps
+                          to get a direction and personalised roadmaps
+                        </p>
+                      </a>
+                    
+              </NavigationMenuContent>
+            </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
         <Button
