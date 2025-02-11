@@ -101,7 +101,7 @@ export const roadmap = {
       ],
     },
   },
-  cybersecurity: {
+  "cybersecurity": {
     "Advanced Threat Detection": {
       subtopics: [
         "Threat Hunting Techniques",
@@ -338,7 +338,9 @@ export const roadmap = {
         "Design a high-performance automotive embedded system",
       ],
     },
-  },
+  }
+}
+export const beginnerRoadmap = {
   "beginner data science": {
     userId: "beginner_data_science_001",
     recommendedCourses: [
