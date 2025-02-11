@@ -220,7 +220,7 @@ const Page = () => {
             highlighted={true}
           />
           <PricingCard
-            title="Enterprise"
+            title="Hiring Agency"
             price="Custom (Reach out to us!)"
             features={[
               "Bulk resume screening",
