@@ -14,6 +14,7 @@ type Candidate = {
 //     { id: "3", name: "Charlie", dimensions: { skill: 9, leadership: 8 }, pastInterviews: [{ score: 10 }, { score: 9 }] },
 // ]
 
+
 export async function rankCandidates(candidates: Candidate[]): Promise<string[]> {
   if (!Array.isArray(candidates)) {
     throw new Error("Invalid data format");
