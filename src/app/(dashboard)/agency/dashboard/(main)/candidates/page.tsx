@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   AvatarFallback,
@@ -27,6 +27,32 @@ import {
   Search,
   Plus,
 } from "lucide-react";
+import { rankCandidates } from "@/lib/rank";
+
+type CandidateInput = {
+  id: string;
+  name: string;
+  dimensions: Record<string, number>;
+  pastInterviews: { role: string; date: string; score?: string }[]; // score might be undefined
+};
+
+type CandidateOutput = {
+  id: string;
+  name: string;
+  dimensions: Record<string, number>;
+  pastInterviews: { score: number }[]
+};
+
+function transformCandidates(candidates: CandidateInput[]): CandidateOutput[] {
+  return candidates.map(({ id, name, dimensions, pastInterviews }) => ({
+    id,
+    name,
+    dimensions,
+    pastInterviews: pastInterviews.map(({ score }) => ({
+      score: typeof score === "string" ? parseInt(score.split("/")[0]) || 0 : 0, // Ensure `score` is a string before calling `.split()`
+    })),
+  }));
+}
 
 const candidates = [
   {
@@ -501,6 +527,8 @@ const candidates = [
   },
 ];
 
+
+
 const dimensionsFilter = [
   { id: "comm", label: "Communication" },
   { id: "coding", label: "Coding" },
@@ -525,6 +553,11 @@ const TalentpoolPage = () => {
       prev === name ? null : name,
     );
   };
+
+  useEffect(() => {
+    console.log(rankCandidates(transformCandidates(candidates)));
+  }, [])
+  
 
   // Filter candidates based on search query
   const filteredCandidates = candidates.filter(
