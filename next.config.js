@@ -17,6 +17,10 @@ const config = {
         protocol: "https",
         hostname: "img-c.udemycdn.com",
       },
+      {
+        protocol: "https",
+        hostname: "wallpapers.com",
+      },
     ],
   },
   typescript: {

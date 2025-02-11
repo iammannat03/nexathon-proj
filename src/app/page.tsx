@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-
 import {
   account,
   appwriteService,
@@ -14,13 +13,13 @@ import { Client, Models } from "appwrite";
 import { useRouter } from "next/navigation";
 import Marquee from "react-fast-marquee";
 import Image from "next/image";
+
 type Props = {};
 
 const Page = (props: Props) => {
   const router = useRouter();
   const [user, setUser] =
     useState<Models.User<Models.Preferences> | null>(null);
-
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -35,6 +34,7 @@ const Page = (props: Props) => {
     };
     void fetchUser();
   }, []);
+
   const handleLogout = async () => {
     await account
       .deleteSession("current")
@@ -47,6 +47,7 @@ const Page = (props: Props) => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   };
+
   const staggerChildren = {
     hidden: {},
     visible: {
@@ -55,8 +56,9 @@ const Page = (props: Props) => {
       },
     },
   };
+
   return (
-    <main className="flex flex-col min-h-screen">
+    <main className="flex min-h-screen flex-col">
       {/* Navbar */}
       <nav className="fixed top-0 w-full bg-white border-b shadow-sm z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -169,7 +171,6 @@ const Page = (props: Props) => {
           viewport={{ once: true }}
           className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto"
         >
-          {/* Replace FeatureCard calls with AnimatedFeatureCard */}
           <AnimatedFeatureCard
             title="AI-powered roadmap generation"
             description="AI-powered roadmap generation based on your skills and goals"
@@ -194,7 +195,6 @@ const Page = (props: Props) => {
           Trusted By Leading Companies
         </h2>
         <Marquee gradient={true} speed={50}>
-          {/* Replace with actual company logos */}
           <div className="flex items-center gap-12 px-8">
             <span className="text-2xl">Microsoft</span>
             <span className="text-2xl">Adobe</span>
@@ -202,7 +202,6 @@ const Page = (props: Props) => {
             <span className="text-2xl">Microsoft</span>
             <span className="text-2xl">Adobe</span>
             <span className="text-2xl">Accenture</span>
-            {/* Add more companies */}
           </div>
         </Marquee>
       </section>
@@ -306,6 +305,14 @@ const Page = (props: Props) => {
     </main>
   );
 };
+
+// Helper Components
+interface FeatureCardProps {
+  title: string;
+  description: string;
+  icon: string;
+}
+
 const AnimatedFeatureCard = ({
   title,
   description,
@@ -326,25 +333,6 @@ const AnimatedFeatureCard = ({
   </motion.div>
 );
 
-// Helper Components
-interface FeatureCardProps {
-  title: string;
-  description: string;
-  icon: string;
-}
-
-const FeatureCard = ({
-  title,
-  description,
-  icon,
-}: FeatureCardProps) => (
-  <div className="p-6 border rounded-lg text-center">
-    <div className="text-4xl mb-4">{icon}</div>
-    <h3 className="text-xl font-bold mb-2">{title}</h3>
-    <p className="text-gray-600">{description}</p>
-  </div>
-);
-
 interface PricingCardProps {
   title: string;
   price: string;
@@ -357,33 +345,29 @@ const PricingCard = ({
   price,
   features,
   highlighted = false,
-}: PricingCardProps) => {
-  const router = useRouter();
-
-  return (
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      transition={{ duration: 0.2 }}
-      className={`p-6 border rounded-lg ${highlighted ? "border-2 border-primary shadow-lg" : ""}`}
+}: PricingCardProps) => (
+  <motion.div
+    whileHover={{ scale: 1.05 }}
+    transition={{ duration: 0.2 }}
+    className={`p-6 border rounded-lg ${highlighted ? "border-2 border-primary shadow-lg" : ""}`}
+  >
+    <h3 className="text-xl font-bold mb-2">{title}</h3>
+    <p className="text-3xl font-bold mb-4">{price}</p>
+    <ul className="space-y-2">
+      {features.map((feature, index) => (
+        <li key={index} className="flex items-center">
+          <span className="mr-2">✓</span>
+          {feature}
+        </li>
+      ))}
+    </ul>
+    <Button
+      className="w-full mt-6"
+      variant={highlighted ? "default" : "outline"}
     >
-      <h3 className="text-xl font-bold mb-2">{title}</h3>
-      <p className="text-3xl font-bold mb-4">{price}</p>
-      <ul className="space-y-2">
-        {features.map((feature, index) => (
-          <li key={index} className="flex items-center">
-            <span className="mr-2">✓</span>
-            {feature}
-          </li>
-        ))}
-      </ul>
-      <Button
-        className="w-full mt-6"
-        variant={highlighted ? "default" : "outline"}
-      >
-        Get Started
-      </Button>
-    </motion.div>
-  );
-};
+      Get Started
+    </Button>
+  </motion.div>
+);
 
 export default Page;

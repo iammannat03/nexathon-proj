@@ -1,93 +1,43 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+import Link from "next/link";
+import { appwriteService } from "@/appwrite/service"; // Import your Appwrite service
+import { SelectItem } from "@/components/ui/select";
+import { SelectContent } from "@/components/ui/select";
+import { SelectValue } from "@/components/ui/select";
 import {
   Select,
-  SelectContent,
-  SelectItem,
   SelectTrigger,
-  SelectValue,
 } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import {
-  MapPin,
-  Building2,
-  Calendar,
-  IndianRupee,
-  Briefcase,
-} from "lucide-react";
-import Link from "next/link";
-// Mock job data
-const jobs = [
-  {
-    id: 1,
-    title: "Frontend Developer",
-    company: "TechCorp",
-    isPromoted: true,
-    location: "Bangalore",
-    isRemote: true,
-    experience: "0-2 years",
-    salary: "5-8 LPA",
-    postedDate: "2 days ago",
-    isHiring: true,
-  },
-  {
-    id: 2,
-    title: "Backend Engineer",
-    company: "CloudTech Solutions",
-    isPromoted: false,
-    location: "Mumbai",
-    isRemote: true,
-    experience: "3-5 years",
-    salary: "15-20 LPA",
-    postedDate: "1 day ago",
-    isHiring: true,
-  },
-  {
-    id: 3,
-    title: "DevOps Engineer",
-    company: "InfraScale",
-    isPromoted: true,
-    location: "Delhi",
-    isRemote: false,
-    experience: "2-4 years",
-    salary: "12-18 LPA",
-    postedDate: "3 days ago",
-    isHiring: true,
-  },
-  {
-    id: 4,
-    title: "Full Stack Developer",
-    company: "Digital Dynamics",
-    isPromoted: false,
-    location: "Bangalore",
-    isRemote: true,
-    experience: "4-6 years",
-    salary: "18-25 LPA",
-    postedDate: "5 days ago",
-    isHiring: true,
-  },
-  {
-    id: 5,
-    title: "UI/UX Designer",
-    company: "CreativeMinds",
-    isPromoted: true,
-    location: "Hyderabad",
-    isRemote: true,
-    experience: "2-5 years",
-    salary: "8-15 LPA",
-    postedDate: "1 week ago",
-    isHiring: true,
-  },
-  // Add more mock jobs here
-];
+import { Checkbox } from "@/components/ui/checkbox";
+import { Slider } from "@/components/ui/slider";
+
+interface Job {
+  id: string;
+  title: string;
+  company: string;
+  location: string;
+  isActive: boolean;
+  startDate: string;
+  salary: string;
+  experience: string;
+  applyBy: string;
+  description: string;
+  responsibilities: string[];
+  skills: string[];
+  companyDescription: string;
+  companyLogo: string;
+}
 
 const JobListingPage = () => {
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [loading, setLoading] = useState(true);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedLocation, setSelectedLocation] = useState<
     string | null
@@ -95,18 +45,39 @@ const JobListingPage = () => {
   const [isRemote, setIsRemote] = useState(false);
   const [isPartTime, setIsPartTime] = useState(false);
   const [salaryRange, setSalaryRange] = useState([0]);
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const fetchedJob =
+          await appwriteService.getAllJobs();
+        setJobs(fetchedJob);
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void fetchJobs();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 p-4 lg:p-6">
-      {/* Filters Sidebar */}
-      <div className="w-full lg:w-64 space-y-6">
+    <div className="flex flex-1 flex-col space-y-6 p-5">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-[300px_1fr]">
         <div className="space-y-4">
           <Input
             placeholder="Search job profiles..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-
           <Select onValueChange={setSelectedLocation}>
             <SelectTrigger>
               <SelectValue placeholder="Select location" />
@@ -119,7 +90,6 @@ const JobListingPage = () => {
               <SelectItem value="delhi">Delhi</SelectItem>
             </SelectContent>
           </Select>
-
           {selectedLocation && (
             <Badge
               variant="secondary"
@@ -129,7 +99,6 @@ const JobListingPage = () => {
               {selectedLocation} ✕
             </Badge>
           )}
-
           <div className="space-y-2">
             <label className="flex items-center space-x-2">
               <Checkbox
@@ -150,7 +119,6 @@ const JobListingPage = () => {
               <span>Part-time</span>
             </label>
           </div>
-
           <div className="space-y-2">
             <label>Salary Range (LPA)</label>
             <Slider
@@ -163,7 +131,6 @@ const JobListingPage = () => {
               {salaryRange[0]} - 10 LPA
             </div>
           </div>
-
           <Select>
             <SelectTrigger>
               <SelectValue placeholder="Years of experience" />
@@ -175,67 +142,56 @@ const JobListingPage = () => {
             </SelectContent>
           </Select>
         </div>
-      </div>
 
-      {/* Job Listings */}
-      <div className="flex-1 flex flex-col space-y-6">
-        {/* Promoted Course Card */}
-        <Card className="p-6 border-2 border-primary hover:shadow-lg transition-all duration-300">
-          <div className="flex justify-between items-start">
-            <div>
-              <Badge className="mb-2">Promoted</Badge>
-              <h3 className="text-xl font-semibold">
-                Full Stack Development Course
-              </h3>
-              <p className="text-muted-foreground">
-                with Guaranteed Placement
-              </p>
-            </div>
-            <Button>Enroll Now</Button>
-          </div>
-        </Card>
-
-        {/* Job Cards */}
-        {jobs.map((job) => (
-          <Link
-            key={job.id}
-            href={`/seeker/apply-for-jobs/${job.id}`}
-            className="hover:shadow-lg transition-all duration-300"
-          >
-            <Card className="p-6">
-              <div className="flex justify-between items-start">
-                <div className="space-y-2">
-                  <h3 className="text-xl font-semibold">
-                    {job.title}
-                  </h3>
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <Building2 className="h-4 w-4" />
-                    <span>{job.company}</span>
-                  </div>
-                  <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                      <MapPin className="h-4 w-4" />
-                      <span>{job.location}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Briefcase className="h-4 w-4" />
-                      <span>{job.experience}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <IndianRupee className="h-4 w-4" />
-                      <span>{job.salary}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-4 w-4" />
-                      <span>{job.postedDate}</span>
-                    </div>
-                  </div>
-                </div>
-                <Button>Apply Now</Button>
+        <div className="space-y-4 flex flex-col">
+          {/* Promoted Course Card */}
+          <Card className="p-6 border-2 border-primary">
+            <div className="flex justify-between items-start">
+              <div>
+                <Badge className="mb-2">Promoted</Badge>
+                <h3 className="text-xl font-semibold">
+                  Full Stack Development Course
+                </h3>
+                <p className="text-muted-foreground">
+                  with Guaranteed Placement
+                </p>
               </div>
-            </Card>
-          </Link>
-        ))}
+              <Button>Enroll Now</Button>
+            </div>
+          </Card>
+          {jobs.map((job) => (
+            <Link
+              key={job.id}
+              href={`/seeker/apply-for-jobs/${job.id}`}
+              className="transition-all duration-300 hover:shadow-lg"
+            >
+              <Card className="p-6">
+                <div className="flex items-start justify-between">
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-semibold">
+                      {job.title}
+                    </h3>
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <span>{job.company}</span>
+                    </div>
+                    <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        <span>{job.location}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <span>{job.experience}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <span>{job.salary}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <Button>Apply Now</Button>
+                </div>
+              </Card>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );
