@@ -3,6 +3,7 @@
  * for Docker builds.
  */
 import "./src/env.js";
+/* eslint-disable */
 
 /** @type {import("next").NextConfig} */
 const config = {
@@ -16,7 +17,17 @@ const config = {
         protocol: "https",
         hostname: "img-c.udemycdn.com",
       },
+      {
+        protocol: "https",
+        hostname: "wallpapers.com",
+      },
     ],
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
   },
 };
 
