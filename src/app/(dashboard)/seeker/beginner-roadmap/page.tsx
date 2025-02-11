@@ -8,9 +8,10 @@ import {
     DialogTitle,
     DialogTrigger,
   } from "@/components/ui/dialog"
-  
+
 
 const Page = () => {
+
   return (
     <div className='m-10'>
         <div className="text-3xl font-bold pb-5">Create a Personalized Roadmap</div>
@@ -20,8 +21,7 @@ const Page = () => {
             <DialogHeader>
             <DialogTitle>Domains to choose from</DialogTitle>
             <DialogDescription>
-                This action cannot be undone. This will permanently delete your account
-                and remove your data from our servers.
+                <div></div>
             </DialogDescription>
             </DialogHeader>
         </DialogContent>
