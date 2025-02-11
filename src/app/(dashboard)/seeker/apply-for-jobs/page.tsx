@@ -5,9 +5,11 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { appwriteService } from "@/appwrite/service"; // Import your Appwrite service
+import { toHyphenatedString } from "@/utils/stringUtils";
 
 interface Job {
   id: string;
+  key: string;
   title: string;
   company: string;
   location: string;
