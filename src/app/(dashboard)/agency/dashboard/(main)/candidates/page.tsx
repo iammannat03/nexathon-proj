@@ -522,7 +522,7 @@ const TalentpoolPage = () => {
   // Handle card click to expand/collapse
   const handleCardClick = (name: string) => {
     setExpandedCandidate((prev) =>
-      prev === name ? null : name
+      prev === name ? null : name,
     );
   };
 
@@ -531,7 +531,7 @@ const TalentpoolPage = () => {
     (candidate) =>
       candidate.name
         .toLowerCase()
-        .includes(searchQuery.toLowerCase())
+        .includes(searchQuery.toLowerCase()),
   );
 
   return (
@@ -738,7 +738,7 @@ const TalentpoolPage = () => {
                       >
                         {dimension}: {score}
                       </span>
-                    )
+                    ),
                   )}
                 </div>
 
@@ -771,7 +771,7 @@ const TalentpoolPage = () => {
                                 </Button>
                               </div>
                             </div>
-                          )
+                          ),
                         )}
                       </div>
                     </div>
