@@ -154,7 +154,7 @@ const JobDetailsPage = ({
 
         <div className="mb-8 flex gap-4">
           <Button variant={"default"}>Apply Now</Button>
-          <JobReadinessDialog />
+          <JobReadinessDialog jobId={id!} />
         </div>
 
         <div className="space-y-6">
